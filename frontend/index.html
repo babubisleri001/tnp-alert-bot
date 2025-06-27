@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Job Alert Subscription</title>
+  <style>
+    body {
+      background: #0a0a0a;
+      color: #fff;
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    form {
+      background: #111;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #ffeb3b44;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    input, button {
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+    button {
+      background: yellow;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <form action="http://localhost:5000/subscribe" method="POST">
+    <h2>Subscribe for Job Alerts</h2>
+    <input type="email" name="email" placeholder="Enter Gmail address" required />
+    <input type="password" name="password" placeholder="Enter Google App Password" required />
+    <button type="submit">Notify Me</button>
+  </form>
+</body>
+</html>

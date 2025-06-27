@@ -1,0 +1,16 @@
+# Node modules
+node_modules/
+
+# Env file with secrets
+.env
+
+# Log files
+logs/
+*.log
+
+# Puppeteer cache
+.cache/
+.puppeteer/
+
+# Optional: exclude seen jobs history
+seenJobs.json
