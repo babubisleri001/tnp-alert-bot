@@ -22,7 +22,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: npm install   # root folder
 
       - name: Run job alert bot
         run: node index.js
@@ -31,3 +31,4 @@ jobs:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
           GMAIL: ${{ secrets.GMAIL }}
           GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
+
