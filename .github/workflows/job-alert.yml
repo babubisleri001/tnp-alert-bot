@@ -26,6 +26,8 @@ jobs:
 
       - name: Run job alert bot
         run: node index.js
+        working-directory: backend
+
         env:
           PASSWORD: ${{ secrets.PASSWORD }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
