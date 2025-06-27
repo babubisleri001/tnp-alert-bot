@@ -6,11 +6,22 @@ import dotenv from 'dotenv';
 import crypto from 'crypto';
 
 dotenv.config();
+
+
+
 const ENCRYPTION_KEY = process.env.SECRET_KEY || '12345678901234567890123456789012';
 const USERNAME = 'TPBIT-BTECH1063922';
 const PASSWORD = process.env.PASSWORD;
 const GMAIL = process.env.GMAIL;
 const GMAIL_PASS = process.env.GMAIL_PASS;
+
+
+console.log("📦 ENV CHECK:", {
+  GMAIL,
+  GMAIL_PASS: !!GMAIL_PASS,
+  PASSWORD: !!PASSWORD,
+  SECRET_KEY: !!ENCRYPTION_KEY,
+});
 
 function decrypt(text) {
   const [ivHex, encrypted] = text.split(':');
