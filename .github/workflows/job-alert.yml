@@ -29,8 +29,9 @@ jobs:
         working-directory: backend
 
         env:
-          PASSWORD: ${{ secrets.PASSWORD }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
           GMAIL: ${{ secrets.GMAIL }}
           GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
 

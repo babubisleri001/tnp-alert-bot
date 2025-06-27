@@ -15,6 +15,7 @@ const PASSWORD = process.env.PASSWORD;
 const GMAIL = process.env.GMAIL;
 const GMAIL_PASS = process.env.GMAIL_PASS;
 
+console.log("🧪 Raw ENV:", process.env);
 
 console.log("📦 ENV CHECK:", {
   GMAIL,
