@@ -4,6 +4,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.6.0",
     "express": "^5.1.0",
-    "nodemailer": "^7.0.3"
+    "nodemailer": "^7.0.3",
+    "puppeteer": "^24.11.0"
   }
 }
