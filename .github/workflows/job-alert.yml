@@ -1,0 +1,32 @@
+name: TnP Job Alert Bot
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Every hour (UTC)
+  workflow_dispatch:      # Manual run button on GitHub
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: backend
+
+      - name: Run job alert bot
+        run: node index.js
+        working-directory: backend 
+        env:
+          PASSWORD: ${{ secrets.PASSWORD }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          GMAIL: ${{ secrets.GMAIL }}
+          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
