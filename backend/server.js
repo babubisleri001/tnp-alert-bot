@@ -24,7 +24,7 @@ function encrypt(text) {
 }
 
 function sendConfirmationEmail(email) {
-  const transporter = nodemailer.createTransporter({
+  const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: process.env.GMAIL,
@@ -97,7 +97,10 @@ app.post('/subscribe', (req, res) => {
     // Check if user already exists
     const existingUser = users.find(user => {
       // Handle both encrypted and non-encrypted emails for backward compatibility
-      const userEmail = user.email.includes(':') ? decrypt(user.email) : user.email;
+      const userEmail = typeof user.email === 'string' && user.email.includes(':')
+      ? decrypt(user.email)
+      : user.email;
+
       return userEmail === email;
     });
 
