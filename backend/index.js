@@ -5,7 +5,12 @@ import cron from 'node-cron';
 import dotenv from 'dotenv';
 import crypto from 'crypto';
 
-dotenv.config();
+
+// NEW
+if (process.env.GITHUB_ACTIONS !== 'true') {
+  // Only load .env locally
+  dotenv.config();
+}
 
 
 

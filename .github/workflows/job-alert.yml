@@ -3,7 +3,7 @@ name: TnP Job Alert Bot
 on:
   schedule:
     - cron: '0 * * * *'  # Every hour (UTC)
-  workflow_dispatch:      # Manual run button on GitHub
+  workflow_dispatch:      # Manual trigger button
 
 jobs:
   run-bot:
@@ -28,23 +28,25 @@ jobs:
           echo "[]" > users.json
         working-directory: backend
 
-      - name: Create environment file
-        run: |
-          echo "GMAIL=${{ secrets.GMAIL }}" >> .env
-          echo "GMAIL_PASS=${{ secrets.GMAIL_PASS }}" >> .env
-          echo "PASSWORD=${{ secrets.PASSWORD }}" >> .env
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-        working-directory: backend
-
       - name: Debug environment variables
         run: |
           echo "Checking if secrets are available..."
-          echo "GMAIL is set: ${{ secrets.GMAIL != '' }}"
-          echo "GMAIL_PASS is set: ${{ secrets.GMAIL_PASS != '' }}"
-          echo "PASSWORD is set: ${{ secrets.PASSWORD != '' }}"
-          echo "SECRET_KEY is set: ${{ secrets.SECRET_KEY != '' }}"
+          echo "GMAIL=$GMAIL"
+          echo "GMAIL_PASS is set: ${GMAIL_PASS:+yes}"
+          echo "PASSWORD is set: ${PASSWORD:+yes}"
+          echo "SECRET_KEY is set: ${SECRET_KEY:+yes}"
         working-directory: backend
+        env:
+          GMAIL: ${{ secrets.GMAIL }}
+          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
       - name: Run job alert bot
         run: node index.js
         working-directory: backend
+        env:
+          GMAIL: ${{ secrets.GMAIL }}
+          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
