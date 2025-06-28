@@ -1,10 +1,10 @@
-const express = require('express');
-const fs = require('fs');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const dotenv = require('dotenv');
-const crypto = require('crypto');
-const nodemailer = require('nodemailer');
+import express from 'express';
+import fs from 'fs';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
+import crypto from 'crypto';
+import nodemailer from 'nodemailer';
 
 dotenv.config();
 const app = express();
