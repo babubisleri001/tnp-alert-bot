@@ -92,7 +92,9 @@ app.post('/subscribe', (req, res) => {
       fs.writeFileSync('users.json', '[]');
     }
 
-    let users = JSON.parse(fs.readFileSync('users.json'));
+    let raw = fs.readFileSync('users.json', 'utf-8');
+let users = raw.trim() === '' ? [] : JSON.parse(raw);
+
 
     // Check if user already exists
     const existingUser = users.find(user => {
