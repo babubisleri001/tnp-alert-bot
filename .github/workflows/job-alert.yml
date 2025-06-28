@@ -8,30 +8,43 @@ on:
 jobs:
   run-bot:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend  # 👈 this ensures all run steps use /backend
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install   # root folder
+        run: npm install
+        working-directory: backend
+
+      - name: Create required files if they don't exist
+        run: |
+          echo "[]" > seenJobs.json
+          echo "[]" > users.json
+        working-directory: backend
+
+      - name: Create environment file
+        run: |
+          echo "GMAIL=${{ secrets.GMAIL }}" >> .env
+          echo "GMAIL_PASS=${{ secrets.GMAIL_PASS }}" >> .env
+          echo "PASSWORD=${{ secrets.PASSWORD }}" >> .env
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+        working-directory: backend
+
+      - name: Debug environment variables
+        run: |
+          echo "Checking if secrets are available..."
+          echo "GMAIL is set: ${{ secrets.GMAIL != '' }}"
+          echo "GMAIL_PASS is set: ${{ secrets.GMAIL_PASS != '' }}"
+          echo "PASSWORD is set: ${{ secrets.PASSWORD != '' }}"
+          echo "SECRET_KEY is set: ${{ secrets.SECRET_KEY != '' }}"
+        working-directory: backend
 
       - name: Run job alert bot
         run: node index.js
         working-directory: backend
-
-        env:
-          GMAIL: ${{ secrets.GMAIL }}
-          GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-
-
