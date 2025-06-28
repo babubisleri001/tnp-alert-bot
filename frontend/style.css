@@ -2,18 +2,22 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: #f5f7fa; /* light and soothing */
+  background: #f5f7fa;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   flex-direction: column;
+  padding-top: 80px; /* offset for navbar */
+  box-sizing: border-box;
 }
 
 .walkthrough {
   margin-bottom: 20px;
-  font-size: 16px;
+  font-size: 1rem;
   color: #333;
+  text-align: center;
+  padding: 0 10px;
 }
 
 .walkthrough a {
@@ -29,7 +33,8 @@ form {
   border: 1px solid rgba(200, 200, 200, 0.2);
   border-radius: 20px;
   padding: 30px 40px;
-  width: 300px;
+  width: 90%;
+  max-width: 350px;
   text-align: center;
   transition: all 0.3s ease-in-out;
 }
@@ -37,17 +42,18 @@ form {
 form h2 {
   color: #111827;
   margin-bottom: 20px;
-  font-size: 20px;
+  font-size: 1.3rem;
 }
 
 input {
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px;
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 1rem;
   transition: border 0.2s ease;
+  box-sizing: border-box;
 }
 
 input:focus {
@@ -58,12 +64,12 @@ input:focus {
 button {
   background-color: #facc15;
   color: #111;
-  padding: 10px 0;
+  padding: 12px 0;
   width: 100%;
   border: none;
   border-radius: 8px;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 1rem;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -71,6 +77,8 @@ button {
 button:hover {
   background-color: #fbbf24;
 }
+
+/* Navbar */
 .navbar {
   width: 100%;
   background-color: #ffffffcc;
@@ -89,10 +97,11 @@ button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .nav-title {
-  font-size: 20px;
+  font-size: 1.25rem;
   font-weight: 600;
   color: #1e293b;
 }
@@ -100,6 +109,8 @@ button:hover {
 .nav-links {
   display: flex;
   gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .nav-btn {
@@ -115,15 +126,19 @@ button:hover {
 .nav-btn:hover {
   background-color: #fbbf24;
 }
+
 .footer {
   text-align: center;
   padding: 20px;
-  font-size: 14px;
+  font-size: 0.9rem;
   color: #4b5563;
   background-color: #f9fafb;
   border-top: 1px solid #e5e7eb;
   margin-top: 40px;
+  width: 100%;
 }
+
+/* Description */
 .description {
   text-align: center;
   margin-top: 40px;
@@ -143,4 +158,28 @@ button:hover {
   max-width: 700px;
   margin: 0 auto;
   line-height: 1.6;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .nav-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-links {
+    justify-content: flex-start;
+  }
+
+  form {
+    padding: 20px;
+  }
+
+  .description h1 {
+    font-size: 1.5rem;
+  }
+
+  .description p {
+    font-size: 0.95rem;
+  }
 }
