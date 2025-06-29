@@ -27,7 +27,7 @@ The project consists of two main components:
 - **Responsive design** for mobile and desktop
 - **Simple subscription form** with email and app password fields
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -66,7 +66,7 @@ The project consists of two main components:
 5. **Serve the frontend**
    Open `frontend/index.html` in a web browser or serve it using a local server.
 
-## 📧 How to Subscribe
+##  How to Subscribe
 
 1. **Generate Google App Password**
    - Go to [Google App Passwords](https://myaccount.google.com/apppasswords)
@@ -83,7 +83,7 @@ The project consists of two main components:
    - You'll receive a confirmation email
    - Job alerts will start within the next hour
 
-## 🔒 Security Features
+##  Security Features
 
 - **Encrypted Storage**: User passwords are encrypted using AES-256-CBC
 - **Input Validation**: Email format validation and required field checks
@@ -91,7 +91,7 @@ The project consists of two main components:
 - **Secure Headers**: CORS and security headers implemented
 - 
 
-## 🛠️ Development
+##  Development
 
 ### Project Structure
 ```
@@ -119,7 +119,7 @@ job-alert-bot/
 - `crypto`: Encryption
 - `dotenv`: Environment variables
 
-## 🚀 Deployment
+##  Deployment
 
 ### Backend Deployment (Render)
 1. Connect your GitHub repository to Render
@@ -130,7 +130,7 @@ job-alert-bot/
 - Deploy to any static hosting service ( Vercel, GitHub Pages)
 - Update the API endpoint in `index.html` to point to your deployed backend
 
-## 🤝 Contributing
+##  Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -138,18 +138,18 @@ job-alert-bot/
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## ⚠️ Disclaimer
+##  Disclaimer
 
 This bot is for educational purposes and personal use. Please ensure compliance with:
 - BIT Mesra's terms of service
 - Gmail's usage policies
 - Applicable data protection regulations
 
-## 📞 Support
+## Support
 
 If you encounter any issues or have questions:
 - Open an issue on GitHub
