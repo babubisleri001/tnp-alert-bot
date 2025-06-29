@@ -9,7 +9,7 @@ import nodemailer from 'nodemailer';
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
-const ENCRYPTION_KEY = process.env.SECRET_KEY || '12345678901234567890123456789012'; // 32-char key
+const ENCRYPTION_KEY = process.env.SECRET_KEY || '12345678901234567890123456789012'; 
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -35,24 +35,24 @@ function sendConfirmationEmail(email) {
   const mailOptions = {
     from: process.env.GMAIL,
     to: email,
-    subject: '🎉 Successfully Subscribed to BIT TNP Job Alerts!',
+    subject: ' Successfully Subscribed to BIT TNP Job Alerts!',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-        <h2 style="color: #2c3e50; text-align: center;">🎉 Welcome to BIT TNP Job Alerts!</h2>
+        <h2 style="color: #2c3e50; text-align: center;"> Welcome to BIT TNP Job Alerts!</h2>
         <p>Hi there,</p>
         <p>You've successfully subscribed to BIT's Job Alert Bot with email: <strong>${email}</strong></p>
         <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
           <h3 style="color: #27ae60; margin-top: 0;">✅ What happens next?</h3>
           <ul>
-            <li>📧 You'll receive email notifications when new job postings are found</li>
-            <li>⏰ We check for new jobs every hour</li>
-            <li>🎯 Only new opportunities will be sent to avoid spam</li>
+            <li> You'll receive email notifications when new job postings are found</li>
+            <li> We check for new jobs every hour</li>
+            <li> Only new opportunities will be sent to avoid spam</li>
           </ul>
         </div>
-        <p>Stay tuned for amazing opportunities! 🚀</p>
+        <p>Stay tuned for amazing opportunities! </p>
         <hr style="margin: 20px 0;">
         <p style="color: #7f8c8d; font-size: 12px; text-align: center;">
-          This is an automated message from BIT TNP Job Alert Bot 🤖<br>
+          This is an automated message from BIT TNP Job Alert Bot <br>
           Thank you for subscribing!
         </p>
       </div>
@@ -61,9 +61,9 @@ function sendConfirmationEmail(email) {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      return console.error(`❌ Error sending confirmation: ${error}`);
+      return console.error(`Error sending confirmation: ${error}`);
     }
-    console.log(`📩 Confirmation sent to ${email}: ${info.response}`);
+    console.log(`Confirmation sent to ${email}: ${info.response}`);
   });
 }
 
@@ -76,8 +76,6 @@ app.post('/subscribe', (req, res) => {
       message: 'Email and password are required' 
     });
   }
-
-  // Validate email format
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return res.status(400).json({ 
@@ -87,18 +85,15 @@ app.post('/subscribe', (req, res) => {
   }
 
   try {
-    // Initialize users file if it doesn't exist
     if (!fs.existsSync('users.json')) {
       fs.writeFileSync('users.json', '[]');
     }
 
     let raw = fs.readFileSync('users.json', 'utf-8');
-let users = raw.trim() === '' ? [] : JSON.parse(raw);
+    let users = raw.trim() === '' ? [] : JSON.parse(raw);
 
 
-    // Check if user already exists
     const existingUser = users.find(user => {
-      // Handle both encrypted and non-encrypted emails for backward compatibility
       const userEmail = typeof user.email === 'string' && user.email.includes(':')
       ? decrypt(user.email)
       : user.email;
@@ -114,7 +109,7 @@ let users = raw.trim() === '' ? [] : JSON.parse(raw);
     }
 
     const userData = {
-      email: email, // Store email as plain text for GitHub Actions
+      email: email,
       password: encrypt(password),
       subscribedAt: new Date().toISOString(),
     };
@@ -122,7 +117,6 @@ let users = raw.trim() === '' ? [] : JSON.parse(raw);
     users.push(userData);
     fs.writeFileSync('users.json', JSON.stringify(users, null, 2));
 
-    // Send confirmation email
     sendConfirmationEmail(email);
 
     res.json({ 
@@ -131,7 +125,7 @@ let users = raw.trim() === '' ? [] : JSON.parse(raw);
     });
 
   } catch (error) {
-    console.error('❌ Subscription error:', error);
+    console.error(' Subscription error:', error);
     res.status(500).json({ 
       success: false, 
       message: 'Internal server error. Please try again.' 
@@ -139,7 +133,6 @@ let users = raw.trim() === '' ? [] : JSON.parse(raw);
   }
 });
 
-// Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ 
     status: 'OK', 
@@ -148,7 +141,6 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Get subscribers count (for admin)
 app.get('/stats', (req, res) => {
   try {
     const users = fs.existsSync('users.json') ? JSON.parse(fs.readFileSync('users.json')) : [];
@@ -173,12 +165,12 @@ function decrypt(text) {
     decrypted += decipher.final('utf8');
     return decrypted;
   } catch (error) {
-    console.error('❌ Decryption failed:', error.message);
-    return text; // Return original if decryption fails
+    console.error(' Decryption failed:', error.message);
+    return text; 
   }
 }
 
 app.listen(PORT, () => {
-  console.log(`✅ Backend server running at http://localhost:${PORT}`);
-  console.log(`📊 Health check available at http://localhost:${PORT}/health`);
+  console.log(` Backend server running at http://localhost:${PORT}`);
+  console.log(` Health check available at http://localhost:${PORT}/health`);
 });

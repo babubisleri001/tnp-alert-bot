@@ -5,29 +5,13 @@ import cron from 'node-cron';
 import dotenv from 'dotenv';
 import crypto from 'crypto';
 
-
-// NEW
-if (process.env.GITHUB_ACTIONS !== 'true') {
-  // Only load .env locally
-  dotenv.config();
-}
-
-
+dotenv.config();
 
 const ENCRYPTION_KEY = process.env.SECRET_KEY || '12345678901234567890123456789012';
 const USERNAME = 'TPBIT-BTECH1063922';
 const PASSWORD = process.env.PASSWORD;
 const GMAIL = process.env.GMAIL;
 const GMAIL_PASS = process.env.GMAIL_PASS;
-
-console.log("🧪 Raw ENV:", process.env);
-
-console.log("ENV CHECK:", {
-  GMAIL,
-  GMAIL_PASS: !!GMAIL_PASS,
-  PASSWORD: !!PASSWORD,
-  SECRET_KEY: !!ENCRYPTION_KEY,
-});
 
 function decrypt(text) {
   const [ivHex, encrypted] = text.split(':');
@@ -52,10 +36,10 @@ async function run() {
   const page = await browser.newPage();
 
   try {
-    console.log('🌐 Opening login page...');
+    console.log(' Opening login page...');
     await page.goto('https://tp.bitmesra.co.in/login.html', { waitUntil: 'networkidle2' });
 
-    console.log('🔐 Filling credentials...');
+    console.log(' Filling credentials...');
     await page.type('#identity', USERNAME);
     await page.type('#password', PASSWORD);
 
@@ -65,8 +49,8 @@ async function run() {
     ]);
 
     const currentUrl = page.url();
-    console.log('✅ Logged in. Final URL:', currentUrl);
-    if (!currentUrl.includes('index.html')) throw new Error('❌ Login failed.');
+    console.log(' Logged in. Final URL:', currentUrl);
+    if (!currentUrl.includes('index.html')) throw new Error(' Login failed.');
 
     await page.waitForSelector('table tbody tr', { timeout: 10000 });
 
@@ -82,17 +66,14 @@ async function run() {
       });
     });
 
-
-
-
     const newJobs = jobs.filter(job =>
       !seenJobs.find(j => j.company === job.company && j.deadline === job.deadline)
     );
 
     if (newJobs.length === 0) {
-      console.log('📭 No new jobs.');
+      console.log(' No new jobs.');
     } else {
-      console.log(`📢 ${newJobs.length} new job(s) found!`);
+      console.log(` ${newJobs.length} new job(s) found!`);
       console.table(newJobs);
       const users = JSON.parse(fs.readFileSync('users.json'));
 
@@ -111,7 +92,7 @@ async function run() {
     }
 
   } catch (err) {
-    console.error('❌ Error:', err.message);
+    console.error(' Error:', err.message);
   } finally {
     await browser.close();
   }
@@ -133,15 +114,13 @@ async function sendEmail(jobs, to, pass) {
   const mailOptions = {
     from: to,
     to,
-    subject: `📢 ${jobs.length} New Job(s) from BIT TNP`,
+    subject: ` ${jobs.length} New Job(s) from BIT TNP`,
     text: body,
   };
 
   await transporter.sendMail(mailOptions);
-  console.log(`📧 Email sent to ${to}`);
+  console.log(` Email sent to ${to}`);
 }
-
-
 
 cron.schedule('*/60 * * * *', run);
 run();
