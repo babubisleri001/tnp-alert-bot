@@ -2,7 +2,7 @@
 
 An automated job alert system that scrapes the BIT Mesra Training & Placement (TnP) portal and sends email notifications to subscribers when new job opportunities are posted.
 
-##Screenshots
+## Screenshots
 
 <img width="1897" height="836" alt="image" src="https://github.com/user-attachments/assets/ba8e4714-74d3-4ba6-9bc9-43daa571ea12" />
 <img width="1195" height="679" alt="image" src="https://github.com/user-attachments/assets/93fc43de-0f6e-4199-9689-7506a140d6c4" />
