@@ -1,4 +1,4 @@
-#  Training and Placement Job Alert Bot - https://tnp-alert.vercel.app/
+#  Training and Placement Job Alert Bot
 
 An automated job alert system that scrapes the BIT Mesra Training & Placement (TnP) portal and sends email notifications to subscribers when new job opportunities are posted.
 
