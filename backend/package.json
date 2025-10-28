@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "start:api": "node server.js",
-    "start:worker": "node index.js",
+    "start:worker": "node index.js", 
     "dev": "node server.js"
   },
   "dependencies": {

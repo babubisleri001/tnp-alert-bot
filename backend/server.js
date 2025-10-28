@@ -9,16 +9,14 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Validate required environment variables
 if (!process.env.GMAIL || !process.env.GMAIL_PASS) {
   console.error('Error: GMAIL and GMAIL_PASS environment variables are required');
   process.exit(1);
 }
 
-// Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // limit each IP to 5 requests per windowMs
+  windowMs: 15 * 60 * 1000, 
+  max: 5, 
   message: 'Too many subscription attempts, please try again later.',
   standardHeaders: true,
   legacyHeaders: false,
@@ -29,7 +27,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/subscribe', limiter);
 
-// Create reusable transporter
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -75,7 +72,6 @@ function sendConfirmationEmail(email) {
   });
 }
 
-// Helper function to safely read/write users.json
 function readUsers() {
   try {
     if (!fs.existsSync('users.json')) {
@@ -120,7 +116,6 @@ app.post('/subscribe', (req, res) => {
   try {
     const users = readUsers();
     
-    // Check if email already exists
     const existingUser = users.find(user => user.email === email);
     if (existingUser) {
       return res.status(409).json({ 
@@ -128,12 +123,10 @@ app.post('/subscribe', (req, res) => {
         message: 'Email already subscribed' 
       });
     }
-
-    // Add new user (no password needed)
     const userData = {
       email: email,
       subscribedAt: new Date().toISOString(),
-      confirmed: true // Auto-confirm for now, can add email verification later
+      confirmed: true 
     };
 
     users.push(userData);
@@ -162,7 +155,7 @@ app.get('/health', (req, res) => {
       status: 'OK', 
       timestamp: new Date().toISOString(),
       subscribers: users.length,
-      mailer: 'configured' // Basic check that env vars are set
+      mailer: 'configured'
     });
   } catch (error) {
     res.status(500).json({ 

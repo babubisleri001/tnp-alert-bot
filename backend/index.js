@@ -62,7 +62,6 @@ function readUsers() {
   }
 }
 
-// Generate a stable job ID for deduplication
 function generateJobId(job) {
   const data = `${job.company}-${job.deadline}-${job.posted}-${job.link}`;
   return crypto.createHash('md5').update(data).digest('hex');
@@ -116,11 +115,9 @@ async function run() {
 
     console.log(`Found ${jobs.length} total jobs on the portal`);
 
-    // Read existing seen jobs
     const seenJobs = readSeenJobs();
     const seenJobIds = new Set(seenJobs.map(job => job.id));
 
-    // Find new jobs using stable IDs
     const newJobs = jobs.filter(job => {
       const jobId = generateJobId(job);
       return !seenJobIds.has(jobId);
@@ -140,7 +137,6 @@ async function run() {
         posted: job.posted
       })));
 
-      // Get confirmed subscribers
       const users = readUsers().filter(user => user.confirmed);
       
       if (users.length === 0) {
@@ -148,7 +144,6 @@ async function run() {
       } else {
         console.log(`Sending notifications to ${users.length} subscribers...`);
         
-        // Send emails to all subscribers
         const emailPromises = users.map(user => 
           sendEmail(newJobs, user.email)
         );
@@ -156,7 +151,6 @@ async function run() {
         await Promise.allSettled(emailPromises);
       }
 
-      // Update seen jobs with new jobs
       const updatedSeenJobs = [...seenJobs, ...newJobs];
       writeSeenJobs(updatedSeenJobs);
       
@@ -206,16 +200,12 @@ async function sendEmail(jobs, toEmail) {
     console.error(`Failed to send email to ${toEmail}:`, error.message);
   }
 }
-
-// Schedule to run every hour at minute 0
 cron.schedule('0 * * * *', () => {
   console.log('Scheduled job scraping triggered');
   run().catch(error => {
     console.error('Scheduled job failed:', error);
   });
 });
-
-// Run immediately on startup
 console.log('Starting job alert bot...');
 run().catch(error => {
   console.error('Initial job run failed:', error);
