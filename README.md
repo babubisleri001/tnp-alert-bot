@@ -30,9 +30,10 @@ The project consists of two main components:
 - **Crypto** for secure credential encryption
 
 ### Frontend (`/frontend`)
-- **CSS** web interface 
+- **HTML/CSS/JavaScript** web interface 
 - **Responsive design** for mobile and desktop
-- **Simple subscription form** with email and app password fields
+- **Simple subscription form** with email-only input
+- **AJAX form submission** with real-time feedback
 
 ##  Quick Start
 
@@ -57,17 +58,34 @@ The project consists of two main components:
    ```
 
 3. **Set up environment variables**
-   Create a `.env` file in the `backend` directory:
+   Copy `.env.example` to `.env` in the `backend` directory:
+   ```bash
+   cp .env.example .env
+   ```
+   
+   Edit `.env` with your actual credentials:
    ```env
    PASSWORD=your_tnp_portal_password
    GMAIL=your_gmail@gmail.com
    GMAIL_PASS=your_gmail_app_password
-   SECRET_KEY=your_32_character_encryption_key
+   PORT=5000
    ```
 
-4. **Start the backend server**
+4. **Start the services**
+   
+   **For API server only:**
    ```bash
-   npm start
+   npm run start:api
+   ```
+   
+   **For job scraper worker only:**
+   ```bash
+   npm run start:worker
+   ```
+   
+   **For development (API server):**
+   ```bash
+   npm run dev
    ```
 
 5. **Serve the frontend**
@@ -75,28 +93,24 @@ The project consists of two main components:
 
 ##  How to Subscribe
 
-1. **Generate Google App Password**
-   - Go to [Google App Passwords](https://myaccount.google.com/apppasswords)
-   - Generate a new app password for "Mail"
-   - Use this password instead of your regular Gmail password
-
-2. **Subscribe via Web Interface**
+1. **Subscribe via Web Interface**
    - Visit the frontend page
    - Enter your Gmail address
-   - Enter your Google App Password
    - Click "Notify Me"
-
-3. **Confirmation**
    - You'll receive a confirmation email
+
+2. **Confirmation**
+   - Check your email for the confirmation message
    - Job alerts will start within the next hour
 
 ##  Security Features
 
-- **Encrypted Storage**: User passwords are encrypted using AES-256-CBC
+- **Single Sender System**: Uses one verified Gmail account to send all notifications
+- **No Password Storage**: Subscribers only provide email addresses
 - **Input Validation**: Email format validation and required field checks
+- **Rate Limiting**: Prevents abuse with request rate limiting
 - **Duplicate Prevention**: Prevents multiple subscriptions with the same email
 - **Secure Headers**: CORS and security headers implemented
-- 
 
 ##  Development
 
@@ -123,19 +137,26 @@ job-alert-bot/
 - `nodemailer`: Email sending
 - `node-cron`: Scheduled tasks
 - `express`: Web server
-- `crypto`: Encryption
+- `express-rate-limit`: Rate limiting
 - `dotenv`: Environment variables
 
 ##  Deployment
 
 ### Backend Deployment (Render)
 1. Connect your GitHub repository to Render
-2. Set environment variables in Render dashboard
+2. Set environment variables in Render dashboard:
+   - `PASSWORD`: Your TnP portal password
+   - `GMAIL`: Your Gmail address
+   - `GMAIL_PASS`: Your Gmail app password
+   - `PORT`: 5000 (or leave default)
 3. Deploy as a Node.js service
+4. **Important**: Deploy both API and Worker services separately:
+   - API Service: Use `npm run start:api`
+   - Worker Service: Use `npm run start:worker`
 
 ### Frontend Deployment
-- Deploy to any static hosting service ( Vercel, GitHub Pages)
-- Update the API endpoint in `index.html` to point to your deployed backend
+- Deploy to any static hosting service (Vercel, GitHub Pages)
+- The frontend automatically detects the API endpoint based on the domain
 
 ##  Contributing
 
@@ -156,11 +177,28 @@ This bot is for educational purposes and personal use. Please ensure compliance 
 - Gmail's usage policies
 - Applicable data protection regulations
 
+## Recent Improvements
+
+### Security & Architecture Updates
+- **Removed password collection**: No longer stores user Gmail passwords
+- **Single sender system**: Uses one verified Gmail account for all notifications
+- **Improved deduplication**: Stable job IDs prevent duplicate notifications
+- **Rate limiting**: Added protection against abuse
+- **Better error handling**: Comprehensive error handling throughout
+- **Process separation**: API and worker can run independently
+
+### User Experience Improvements
+- **Simplified subscription**: Only email required, no passwords
+- **Real-time feedback**: AJAX form submission with success/error messages
+- **Better email templates**: Improved HTML email formatting
+- **Automatic endpoint detection**: Frontend works with local and production APIs
+
 ## Support
 
 If you encounter any issues or have questions:
 - Open an issue on GitHub
-- Verify your Google App Password is correctly set up
+- Verify your Gmail App Password is correctly set up
+- Check that all required environment variables are configured
 
 ---
 

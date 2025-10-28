@@ -5,7 +5,6 @@
   <title>Job Alert Subscription</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="business.png">
-
 </head>
 <body>
     <nav class="navbar">
@@ -27,26 +26,73 @@
   </p>
 </section>
 
+<div class="walkthrough">
+  <p>
+    <strong>How it works:</strong> Simply enter your email below and we'll send you notifications 
+    when new jobs are posted. No passwords required - we use our secure system to send emails.
+  </p>
+</div>
 
-  <div class="walkthrough">
-    <p>
-      Click here to generate your Google App Password:
-      <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener noreferrer">
-        Generate App Password
-      </a>
-    </p>
-  </div>
+<form id="subscriptionForm">
+  <h2>Subscribe for Job Alerts</h2>
+  <input type="email" id="email" name="email" placeholder="Enter your Gmail address" required />
+  <button type="submit" id="submitBtn">Notify Me</button>
+  <div id="message" class="message"></div>
+</form>
 
-  <form action="https://tnp-alert-bot-1.onrender.com/subscribe" method="POST">
-    <h2>Subscribe for Job Alerts</h2>
-    <input type="email" name="email" placeholder="Enter Gmail address" required />
-    <input type="password" name="password" placeholder="Enter Google App Password" required />
-    <button type="submit">Notify Me</button>
-  </form>
-  <footer class="footer">
+<footer class="footer">
   © 2025 TnP Job Alerts™. All rights reserved.
 </footer>
 
-</body>
+<script>
+document.getElementById('subscriptionForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  const email = document.getElementById('email').value;
+  const submitBtn = document.getElementById('submitBtn');
+  const messageDiv = document.getElementById('message');
+  
+  // Disable form during submission
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Subscribing...';
+  messageDiv.textContent = '';
+  messageDiv.className = 'message';
+  
+  try {
+    // Determine API endpoint based on current location
+    const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? 'http://localhost:5000/subscribe'
+      : '/subscribe';
+    
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: email })
+    });
+    
+    const data = await response.json();
+    
+    if (response.ok && data.success) {
+      messageDiv.textContent = data.message;
+      messageDiv.className = 'message success';
+      document.getElementById('email').value = ''; // Clear form
+    } else {
+      messageDiv.textContent = data.message || 'Subscription failed. Please try again.';
+      messageDiv.className = 'message error';
+    }
+  } catch (error) {
+    messageDiv.textContent = 'Network error. Please check your connection and try again.';
+    messageDiv.className = 'message error';
+    console.error('Subscription error:', error);
+  } finally {
+    // Re-enable form
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Notify Me';
+  }
+});
+</script>
 
+</body>
 </html>
